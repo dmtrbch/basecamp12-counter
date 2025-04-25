@@ -55,7 +55,12 @@ const Home = () => {
     ]
   });
 
-  const {sendAsync: resetCounter} = useScaffoldMultiWriteContract({
+  const {sendAsync: resetCounter} = useScaffoldWriteContract({
+    contractName: "Counter",
+    functionName: "reset_counter",
+  });
+
+  const {sendAsync: resetCounterWithStrkDeposit} = useScaffoldMultiWriteContract({
     calls: [
       {
         contractName: "Strk",
@@ -87,7 +92,11 @@ const Home = () => {
   };
 
   const handleReset = () => {
-    resetCounter();
+    if (contractBalance && Number(formattedBalance) > 0) {
+      resetCounterWithStrkDeposit();
+    } else {
+      resetCounter();
+    }
   };
   
   return (
