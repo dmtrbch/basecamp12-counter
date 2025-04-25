@@ -152,7 +152,7 @@ const Home = () => {
                 </button>
                 <button
                   className="btn btn-outline btn-lg"
-                  onClick={() => console.log("Reset clicked")}
+                  onClick={handleReset}
                 >
                   Reset (costs {formattedBalance} STRK)
                 </button>
