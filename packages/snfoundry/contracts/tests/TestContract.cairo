@@ -160,22 +160,20 @@ fn test_successful_decrease_counter() {
     assert(final_count == initial_count - 1, 'invalid decrease count');
 }
 
-// INFO: this test will no longer PASS since we have removed the only owner assertion
-// in the counter contract when reseting the counter.
-// #[test]
-// #[feature("safe_dispatcher")]
-// fn test_safe_panic_reset_counter_by_non_owner() {
-//     let (counter, _, safe_counter) = __deploy__(ZERO_COUNT);
+#[test]
+#[feature("safe_dispatcher")]
+fn test_safe_panic_reset_counter_by_non_owner() {
+    let (counter, _, safe_counter) = __deploy__(ZERO_COUNT);
 
-//     assert(counter.get_counter() == ZERO_COUNT, 'invalid count');
+    assert(counter.get_counter() == ZERO_COUNT, 'invalid count');
 
-//     start_cheat_caller_address(counter.contract_address, USER_1());
+    start_cheat_caller_address(counter.contract_address, USER_1());
 
-//     match safe_counter.reset_counter() {
-//         Result::Ok(_) => panic!("cannot reset"),
-//         Result::Err(e) => assert(*e[0] == 'Caller is not the owner', *e.at(0)),
-//     }
-// }
+    match safe_counter.reset_counter() {
+        Result::Ok(_) => panic!("cannot reset"),
+        Result::Err(e) => assert(*e[0] == 'Caller is not the owner', *e.at(0)),
+    }
+}
 
 #[test]
 fn test_successful_reset_counter() {

@@ -103,6 +103,8 @@ pub mod Counter {
         }
 
         fn reset_counter(ref self: ContractState) {
+            self.ownable.assert_only_owner();
+            
             let caller = get_caller_address();
             let strk_contract_address: ContractAddress = FELT_STRK_CONTRACT.try_into().unwrap();
 
@@ -119,7 +121,6 @@ pub mod Counter {
                 strk_dispatcher.transfer_from(caller, get_contract_address(), contract_balance);
             }
 
-            // self.ownable.assert_only_owner();
             self.counter.write(0);
         }
 
